@@ -1,0 +1,25 @@
+<!-- Optional convenience build. Each module also builds and runs on its own. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>kafka-session-samples</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>01-pub-sub-application</module>
+        <module>02-event-driven-application</module>
+        <module>03-dlq-application</module>
+        <module>04-ordering-and-groups</module>
+        <module>05-idempotent-loyalty</module>
+        <module>06-non-blocking-retry</module>
+        <module>07-streams-dashboard</module>
+        <module>08-kafka-transactions</module>
+        <module>09-outbox-cdc</module>
+        <module>10-schema-evolution</module>
+        <module>11-compaction-and-tombstones</module>
+        <module>12-broker-failover</module>
+        <module>13-lag-and-rebalancing</module>
+        <module>14-secure-publishing</module>
+    </modules>
+</project>

@@ -1,0 +1,23 @@
+{
+  "name": "sample-orders-outbox",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "demo",
+    "database.password": "demo-local-only",
+    "database.dbname": "orders",
+    "topic.prefix": "sampleoutbox",
+    "table.include.list": "public.outbox",
+    "plugin.name": "pgoutput",
+    "slot.name": "sample_outbox_slot",
+    "publication.name": "sample_outbox_publication",
+    "publication.autocreate.mode": "filtered",
+    "snapshot.mode": "initial",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false"
+  }
+}

@@ -1,0 +1,15 @@
+name: kafka-advanced-registry
+services:
+  registry:
+    image: confluentinc/cp-schema-registry:7.7.1
+    ports: ["127.0.0.1:28081:8081"]
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: registry
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:19092
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR: 1
+    networks: [shared-kafka]
+networks:
+  shared-kafka:
+    external: true
+    name: kafka-session-single_default

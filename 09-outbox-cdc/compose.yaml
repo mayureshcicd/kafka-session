@@ -1,0 +1,41 @@
+name: kafka-advanced-outbox
+services:
+  postgres:
+    image: postgres:17
+    command: ["postgres", "-c", "wal_level=logical"]
+    ports: ["127.0.0.1:25432:5432"]
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo-local-only
+    volumes: ["orders-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d orders"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  connect:
+    image: quay.io/debezium/connect:3.0.0.Final
+    ports: ["127.0.0.1:28083:8083"]
+    depends_on:
+      postgres: {condition: service_healthy}
+    environment:
+      BOOTSTRAP_SERVERS: kafka:19092
+      GROUP_ID: sample-outbox-connect
+      CONFIG_STORAGE_TOPIC: sample-outbox-connect-config
+      OFFSET_STORAGE_TOPIC: sample-outbox-connect-offset
+      STATUS_STORAGE_TOPIC: sample-outbox-connect-status
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+      KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+    networks: [default, shared-kafka]
+volumes:
+  orders-data:
+networks:
+  shared-kafka:
+    external: true
+    name: kafka-session-single_default
